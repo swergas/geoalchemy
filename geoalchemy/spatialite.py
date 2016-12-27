@@ -109,7 +109,7 @@ class SQLiteSpatialDialect(SpatialDialect):
                                                     0 if column.nullable else 1)]).execution_options(autocommit=True))
         if column.type.spatial_index and SQLiteSpatialDialect.supports_rtree(bind.dialect):
             bind.execute("SELECT CreateSpatialIndex('%s', '%s')" % (table.name, column.name))
-            bind.execute("VACUUM %s" % table.name)
+            #bind.execute("VACUUM %s" % table.name) # commented out to avoid the following error when executing examples/spatialite.py: "sqlalchemy.exc.OperationalError: (pysqlite2.dbapi2.OperationalError) cannot VACUUM from within a transaction [SQL: u'VACUUM roads']"
     
     @staticmethod  
     def supports_rtree(dialect):
